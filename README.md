@@ -57,10 +57,10 @@ Location: Tiruvannamalai, India
 
 Email: Praveenkumar20026@gmail.com
 
-LinkedIn: linkedin.com/in/praveen-kumar-m-6786763a0
+LinkedIn: https://www.linkedin.com/in/praveen-kumar-m-6786763a0
 
-GitHub: github.com/praveenkumar5424
+GitHub: https://github.com/praveenkumar5424
 
-LeetCode: leetcode.com/u/praveen-kumar-89/
+LeetCode: https://leetcode.com/u/praveen-kumar-89/
 
 My Portfolio link: https://personal-portfolio-praveenj.vercel.app
