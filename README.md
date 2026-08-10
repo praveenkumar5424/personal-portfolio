@@ -78,4 +78,4 @@ GitHub: github.com/praveenkumar5424
 
 LeetCode: leetcode.com/u/praveen-kumar-89/
 
-My Portfolio link:personal-portfolio-praveenj.vercel.app
+My Portfolio link: https://personal-portfolio-praveenj.vercel.app
