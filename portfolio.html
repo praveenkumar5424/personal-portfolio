@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Praveenkumar M — Full-Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A1224;
+    --bg-alt:#0D1830;
+    --surface:#111E3A;
+    --surface-2:#162A4A;
+    --line:#233B60;
+    --line-soft:#182948;
+    --text:#EEF2F8;
+    --text-dim:#A9B7CC;
+    --text-faint:#63779A;
+    --gold:#E3A23C;
+    --gold-dim:#8A7040;
+    --teal:#4FB3A6;
+    --clay:#C1563B;
+    --radius:14px;
+    --maxw:1120px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:radial-gradient(circle at 1px 1px, rgba(238,242,248,0.05) 1px, transparent 0);
+    background-size:26px 26px;
+    pointer-events:none;
+    z-index:0;
+  }
+  h1,h2,h3,h4{font-family:'Fraunces',serif; font-weight:600; letter-spacing:-0.01em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  section{position:relative; z-index:1;}
+
+  ::selection{background:var(--gold); color:#14200; color:#14200E;}
+
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  /* ===== NAV ===== */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(15,23,18,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-inner{
+    max-width:var(--maxw); margin:0 auto; padding:16px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav-logo{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600; font-size:15px; letter-spacing:0.02em;
+    color:var(--text);
+  }
+  .nav-logo span{color:var(--gold);}
+  .nav-links{display:flex; gap:30px; list-style:none;}
+  .nav-links a{
+    font-size:13px; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--text-dim); font-weight:500;
+    transition:color .25s ease;
+    position:relative;
+  }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:-6px; width:0; height:1px;
+    background:var(--gold); transition:width .3s ease;
+  }
+  .nav-links a:hover{color:var(--text);}
+  .nav-links a:hover::after{width:100%;}
+  .nav-toggle{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px;}
+  .nav-toggle span{width:22px; height:2px; background:var(--text);}
+
+  /* ===== HERO ===== */
+  .hero{
+    padding:168px 0 100px;
+    min-height:92vh; display:flex; align-items:center;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.15fr 0.85fr; gap:64px; align-items:center;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--teal); display:flex; align-items:center; gap:10px;
+    margin-bottom:22px; opacity:0; animation:fadeUp .7s ease forwards;
+  }
+  .eyebrow::before{content:""; width:8px; height:8px; border-radius:50%; background:var(--teal); box-shadow:0 0 0 4px rgba(79,179,166,0.18);}
+
+  .hero h1{
+    font-size:clamp(34px, 5vw, 58px);
+    line-height:1.08;
+    color:var(--text);
+    opacity:0; animation:fadeUp .8s ease .1s forwards;
+  }
+  .hero h1 .accent{color:var(--gold); font-style:italic; font-weight:500;}
+
+  .hero-sub{
+    margin-top:24px; max-width:520px; color:var(--text-dim); font-size:17px;
+    opacity:0; animation:fadeUp .8s ease .22s forwards;
+  }
+
+  .hero-cta{display:flex; gap:16px; margin-top:38px; flex-wrap:wrap;
+    opacity:0; animation:fadeUp .8s ease .34s forwards;}
+  .btn{
+    padding:14px 26px; border-radius:999px; font-size:14px; font-weight:600;
+    display:inline-flex; align-items:center; gap:8px; transition:all .25s ease;
+    border:1px solid transparent; cursor:pointer;
+  }
+  .btn-primary{background:var(--gold); color:#141F14;}
+  .btn-primary:hover{background:#eeb35a; transform:translateY(-2px); box-shadow:0 10px 24px -8px rgba(227,162,60,0.5);}
+  .btn-ghost{border-color:var(--line); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--teal); color:var(--teal); transform:translateY(-2px);}
+
+  .hero-stats{
+    display:flex; gap:34px; margin-top:52px; flex-wrap:wrap;
+    opacity:0; animation:fadeUp .8s ease .46s forwards;
+  }
+  .stat-num{font-family:'Fraunces',serif; font-size:26px; color:var(--gold); font-weight:700;}
+  .stat-label{font-size:12px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin-top:2px;}
+
+  /* Scanner / ID card */
+  .scan-card{
+    position:relative;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:22px;
+    opacity:0; animation:fadeUp .9s ease .3s forwards;
+  }
+  .scan-topbar{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-faint);
+    letter-spacing:0.06em; margin-bottom:16px; text-transform:uppercase;
+  }
+  .scan-dot{width:7px; height:7px; border-radius:50%; background:var(--teal); display:inline-block; margin-right:6px; animation:pulse 2s infinite;}
+  .scan-photo-frame{
+    position:relative; border-radius:10px; overflow:hidden;
+    border:1px solid var(--line);
+    aspect-ratio:3/3.6;
+  }
+  .scan-photo-frame img{width:100%; height:100%; object-fit:cover;}
+  .scan-line{
+    position:absolute; left:0; right:0; height:2px;
+    background:linear-gradient(90deg, transparent, var(--teal) 25%, var(--teal) 75%, transparent);
+    box-shadow:0 0 12px 2px rgba(79,179,166,0.6);
+    animation:scanMove 3.2s ease-in-out infinite;
+  }
+  .corner{position:absolute; width:16px; height:16px; border-color:var(--gold); opacity:0.9;}
+  .corner.tl{top:8px; left:8px; border-top:2px solid; border-left:2px solid;}
+  .corner.tr{top:8px; right:8px; border-top:2px solid; border-right:2px solid;}
+  .corner.bl{bottom:8px; left:8px; border-bottom:2px solid; border-left:2px solid;}
+  .corner.br{bottom:8px; right:8px; border-bottom:2px solid; border-right:2px solid;}
+
+  .scan-info{margin-top:16px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--text-dim);}
+  .scan-info .row{display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed var(--line-soft);}
+  .scan-info .row:last-child{border-bottom:none;}
+  .scan-info .k{color:var(--text-faint);}
+  .verified{
+    display:inline-flex; align-items:center; gap:6px; margin-top:14px;
+    background:rgba(79,179,166,0.12); color:var(--teal);
+    padding:6px 12px; border-radius:999px; font-size:11px; font-family:'IBM Plex Mono',monospace;
+    letter-spacing:0.05em; text-transform:uppercase; width:fit-content;
+  }
+  .verified::before{content:"✓";}
+
+  @keyframes scanMove{
+    0%{top:4%;} 50%{top:92%;} 100%{top:4%;}
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;} 50%{opacity:0.35;}
+  }
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(18px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  /* ===== SECTION HEADERS ===== */
+  .section{padding:120px 0;}
+  .section-head{margin-bottom:56px; max-width:640px;}
+  .section-tag{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--gold);
+    text-transform:uppercase; letter-spacing:0.14em; margin-bottom:14px; display:block;
+  }
+  .section-head h2{font-size:clamp(28px,3.4vw,40px); color:var(--text);}
+  .section-head p{color:var(--text-dim); margin-top:14px; font-size:16px;}
+
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.visible{opacity:1; transform:translateY(0);}
+
+  .divider{height:1px; background:var(--line-soft); max-width:var(--maxw); margin:0 auto;}
+
+  /* ===== ABOUT ===== */
+  .about-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:60px; align-items:start;}
+  .about-text p{color:var(--text-dim); font-size:16.5px; margin-bottom:18px;}
+  .about-text strong{color:var(--text); font-weight:600;}
+  .about-quote{
+    font-family:'Fraunces',serif; font-style:italic; font-size:22px; color:var(--gold);
+    border-left:2px solid var(--gold); padding-left:20px; margin-top:28px; line-height:1.5;
+  }
+  .facts-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:28px;
+  }
+  .facts-card h4{font-family:'IBM Plex Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-faint); margin-bottom:18px; font-weight:600;}
+  .fact-row{display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--line-soft); font-size:14.5px;}
+  .fact-row:last-child{border-bottom:none;}
+  .fact-row .k{color:var(--text-faint);}
+  .fact-row .v{color:var(--text); font-weight:500; text-align:right;}
+  .lang-bars{margin-top:22px; display:flex; flex-direction:column; gap:12px;}
+  .lang-bar-label{display:flex; justify-content:space-between; font-size:13px; color:var(--text-dim); margin-bottom:5px;}
+  .lang-track{height:5px; background:var(--surface-2); border-radius:4px; overflow:hidden;}
+  .lang-fill{height:100%; background:linear-gradient(90deg,var(--teal),var(--gold)); border-radius:4px;}
+
+  /* ===== SKILLS ===== */
+  .skills-groups{display:grid; grid-template-columns:repeat(2,1fr); gap:22px;}
+  .skill-group{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:26px; transition:border-color .3s ease, transform .3s ease;
+  }
+  .skill-group:hover{border-color:var(--teal); transform:translateY(-4px);}
+  .skill-group h4{
+    font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--teal);
+    text-transform:uppercase; letter-spacing:0.08em; margin-bottom:16px;
+  }
+  .chip-row{display:flex; flex-wrap:wrap; gap:9px;}
+  .chip{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--text-dim);
+    background:var(--surface-2); border:1px solid var(--line); padding:7px 13px; border-radius:7px;
+    transition:all .2s ease;
+  }
+  .chip:hover{color:var(--gold); border-color:var(--gold); transform:translateY(-2px);}
+
+  /* ===== EXPERIENCE ===== */
+  .timeline{border-left:1px solid var(--line); padding-left:34px; position:relative; max-width:760px;}
+  .tl-item{position:relative; padding-bottom:44px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-dot{
+    position:absolute; left:-40px; top:4px; width:11px; height:11px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--gold);
+  }
+  .tl-date{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em;}
+  .tl-item h3{font-size:20px; color:var(--text); margin:8px 0 4px;}
+  .tl-item .role-co{color:var(--gold); font-size:14px; font-weight:600; margin-bottom:12px; font-family:'Inter',sans-serif;}
+  .tl-item ul{margin-left:18px; color:var(--text-dim); font-size:15px;}
+  .tl-item li{margin-bottom:7px;}
+
+  .patent-card{
+    margin-top:20px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:28px; max-width:760px; margin-left:34px;
+  }
+  .patent-card .ptag{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--clay);
+    text-transform:uppercase; letter-spacing:0.1em; background:rgba(193,86,59,0.12);
+    padding:5px 11px; border-radius:999px; display:inline-block; margin-bottom:14px;
+  }
+  .patent-card h3{font-size:18px; color:var(--text); margin-bottom:12px;}
+  .patent-card ul{margin-left:18px; color:var(--text-dim); font-size:14.5px;}
+  .patent-card li{margin-bottom:6px;}
+
+  /* ===== CASE STUDY ===== */
+  .case-hero{
+    background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:44px;
+    position:relative; overflow:hidden;
+  }
+  .case-hero::before{
+    content:""; position:absolute; top:-40%; right:-10%; width:420px; height:420px;
+    background:radial-gradient(circle, rgba(227,162,60,0.10), transparent 70%);
+  }
+  .case-tags{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; position:relative;}
+  .case-tags span{
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--teal);
+    border:1px solid rgba(79,179,166,0.35); padding:5px 11px; border-radius:999px;
+  }
+  .case-hero h3{font-size:clamp(24px,3vw,32px); color:var(--text); max-width:640px; position:relative;}
+  .case-hero p.lead{color:var(--text-dim); margin-top:14px; max-width:640px; font-size:16px; position:relative;}
+
+  .case-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:36px;}
+  .case-col{background:var(--surface-2); border:1px solid var(--line-soft); border-radius:var(--radius); padding:24px;}
+  .case-col .num{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--gold); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; display:block;}
+  .case-col h4{font-size:17px; color:var(--text); margin-bottom:10px;}
+  .case-col p, .case-col li{color:var(--text-dim); font-size:14.5px;}
+  .case-col ul{margin-left:16px; margin-top:6px;}
+  .case-col li{margin-bottom:6px;}
+
+  .case-outcome{
+    margin-top:22px; background:var(--surface-2); border:1px solid var(--line-soft); border-radius:var(--radius); padding:26px 24px;
+  }
+  .case-outcome .num{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--gold); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; display:block;}
+  .outcome-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:14px;}
+  .outcome-item{border-left:2px solid var(--teal); padding-left:12px;}
+  .outcome-item .t{font-size:13.5px; color:var(--text); font-weight:600; margin-bottom:4px;}
+  .outcome-item .d{font-size:12.5px; color:var(--text-faint);}
+
+  /* ===== CERT & EDUCATION ===== */
+  .ce-grid{display:grid; grid-template-columns:1fr 1fr; gap:60px;}
+  .edu-item{margin-bottom:30px; padding-bottom:30px; border-bottom:1px solid var(--line-soft);}
+  .edu-item:last-child{border-bottom:none; margin-bottom:0; padding-bottom:0;}
+  .edu-top{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px;}
+  .edu-item h4{font-size:17px; color:var(--text);}
+  .edu-item .yr{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--gold);}
+  .edu-item .loc{color:var(--text-faint); font-size:13px; margin-top:3px;}
+  .edu-item .detail{color:var(--text-dim); font-size:14.5px; margin-top:6px;}
+
+  .cert-list{display:flex; flex-direction:column; gap:14px;}
+  .cert-item{
+    display:flex; align-items:center; gap:14px; background:var(--surface); border:1px solid var(--line);
+    border-radius:12px; padding:16px 18px; transition:border-color .25s ease, transform .25s ease;
+  }
+  .cert-item:hover{border-color:var(--gold); transform:translateX(4px);}
+  .cert-icon{
+    width:38px; height:38px; border-radius:9px; background:var(--surface-2); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; color:var(--gold); font-family:'IBM Plex Mono',monospace; font-size:13px; flex-shrink:0;
+  }
+  .cert-item .ct{color:var(--text); font-size:14.5px; font-weight:600;}
+  .cert-item .cs{color:var(--text-faint); font-size:12.5px; margin-top:2px;}
+
+  .achieve{
+    margin-top:20px; display:flex; align-items:center; gap:14px; padding:16px 18px;
+    background:rgba(227,162,60,0.07); border:1px solid rgba(227,162,60,0.25); border-radius:12px;
+  }
+  .achieve .ct{color:var(--text); font-size:14.5px; font-weight:600;}
+  .achieve .cs{color:var(--text-faint); font-size:12.5px; margin-top:2px;}
+
+  /* ===== CONTACT ===== */
+  .contact-panel{
+    background:var(--surface); border:1px solid var(--line); border-radius:22px; padding:56px;
+    text-align:center; position:relative; overflow:hidden;
+  }
+  .contact-panel::before{
+    content:""; position:absolute; inset:0;
+    background-image:radial-gradient(circle at 1px 1px, rgba(227,162,60,0.06) 1px, transparent 0);
+    background-size:22px 22px;
+  }
+  .contact-panel h2{font-size:clamp(28px,4vw,42px); color:var(--text); position:relative; max-width:600px; margin:0 auto;}
+  .contact-panel p{color:var(--text-dim); margin-top:16px; position:relative; max-width:480px; margin-left:auto; margin-right:auto;}
+  .contact-links{
+    display:flex; justify-content:center; gap:16px; margin-top:36px; flex-wrap:wrap; position:relative;
+  }
+  .clink{
+    display:flex; align-items:center; gap:10px; background:var(--surface-2); border:1px solid var(--line);
+    padding:13px 22px; border-radius:999px; font-size:14px; color:var(--text); transition:all .25s ease;
+  }
+  .clink:hover{border-color:var(--gold); color:var(--gold); transform:translateY(-2px);}
+  .clink .ico{font-family:'IBM Plex Mono',monospace; color:var(--teal);}
+
+  footer{padding:36px 0; text-align:center; color:var(--text-faint); font-size:13px; font-family:'IBM Plex Mono',monospace; border-top:1px solid var(--line-soft);}
+  footer span{color:var(--gold);}
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:860px){
+    .nav-links{
+      position:fixed; top:64px; left:0; right:0; background:var(--bg-alt);
+      flex-direction:column; padding:24px 32px; gap:20px; border-bottom:1px solid var(--line);
+      transform:translateY(-140%); transition:transform .3s ease;
+    }
+    .nav-links.open{transform:translateY(0);}
+    .nav-toggle{display:flex;}
+    .hero-grid{grid-template-columns:1fr; gap:48px;}
+    .scan-card{max-width:340px; margin:0 auto;}
+    .about-grid{grid-template-columns:1fr;}
+    .skills-groups{grid-template-columns:1fr;}
+    .case-grid{grid-template-columns:1fr;}
+    .outcome-grid{grid-template-columns:repeat(2,1fr);}
+    .ce-grid{grid-template-columns:1fr; gap:44px;}
+    .section{padding:80px 0;}
+    .wrap{padding:0 22px;}
+    .hero{padding-top:140px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">Praveen Kumar</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#case-study">Case Study</a></li>
+      <li><a href="#education">Certification &amp; Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Tiruvannamalai, India · Open to Opportunities</div>
+      <h1>CSE Student. Full-Stack Intern. <span class="accent">Cloud-Curious</span> Developer.</h1>
+      <p class="hero-sub">I build full-stack products end to end — from REST APIs and databases to AI-integrated interfaces — with a growing focus on cloud-native systems and secure application design.</p>
+      <div class="hero-cta">
+        <a href="#case-study" class="btn btn-primary">View Case Study →</a>
+        <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">7.45</div>
+          <div class="stat-label">CGPA · B.E. CSE</div>
+        </div>
+        <div>
+          <div class="stat-num">1</div>
+          <div class="stat-label">Patent Publication</div>
+        </div>
+        <div>
+          <div class="stat-num">3</div>
+          <div class="stat-label">Languages Spoken</div>
+        </div>
+        <div>
+          <div class="stat-num">1</div>
+          <div class="stat-label">Projects Built</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scan-card">
+      <div class="scan-topbar">
+        <span><span class="scan-dot"></span>id_verify.sys</span>
+        <span>2027 Batch</span>
+      </div>
+      <div class="scan-photo-frame">
+        <img src="data:image/jpeg;base64,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" alt="Portrait of Praveenkumar M">
+        <div class="scan-line"></div>
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+      </div>
+      <div class="scan-info">
+        <div class="row"><span class="k">name</span><span>Praveenkumar M</span></div>
+        <div class="row"><span class="k">role</span><span>Full-Stack Developer</span></div>
+        <div class="row"><span class="k">stack</span><span>React · Node · MySQL</span></div>
+        <div class="row"><span class="k">focus</span><span>AI + Cloud</span></div>
+      </div>
+      <div class="verified">Profile verified</div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">01 · About Me</span>
+      <h2>Building software with a builder's patience and an engineer's discipline.</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm <strong>Praveenkumar M</strong>, a Computer Science &amp; Engineering student at V.S.B College of Engineering Technical Campus, Coimbatore, graduating in 2027. My work sits at the intersection of <strong>full-stack development</strong>, <strong>AI integration</strong>, and <strong>secure system design</strong>.</p>
+        <p>As a Full Stack Development Intern at <strong>Viruzverse Solutions</strong>, I built application modules with Java and React.js, backed by MySQL for data persistence. Outside of internship work, I co-designed a patent-published <strong>biometric fraud-detection system for voting</strong>, and independently built an <strong>AI-powered agricultural decision-support platform</strong> for farmers using the Google Gemini API.</p>
+        <p>I'm currently deepening my interest in cloud infrastructure — learning how the systems I build get deployed, scaled, and kept secure once they leave localhost.</p>
+        <p class="about-quote">"I like software that solves a problem someone actually has — a farmer, a voter, a first-time user."</p>
+      </div>
+      <div class="facts-card reveal">
+        <h4>Quick Facts</h4>
+        <div class="fact-row"><span class="k">Based in</span><span class="v">Tiruvannamalai, India</span></div>
+        <div class="fact-row"><span class="k">Degree</span><span class="v">B.E. CSE, 2023–2027</span></div>
+        <div class="fact-row"><span class="k">CGPA</span><span class="v">7.45</span></div>
+        <div class="fact-row"><span class="k">Current Role</span><span class="v">Full Stack Intern</span></div>
+        <div class="fact-row"><span class="k">Interests</span><span class="v">AI, Cloud, Security</span></div>
+        <div class="lang-bars">
+          <div>
+            <div class="lang-bar-label"><span>Tamil</span><span>Native</span></div>
+            <div class="lang-track"><div class="lang-fill" style="width:100%"></div></div>
+          </div>
+          <div>
+            <div class="lang-bar-label"><span>English</span><span>Intermediate</span></div>
+            <div class="lang-track"><div class="lang-fill" style="width:65%"></div></div>
+          </div>
+          <div>
+            <div class="lang-bar-label"><span>Kannada</span><span>Intermediate</span></div>
+            <div class="lang-track"><div class="lang-fill" style="width:60%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- SKILLS -->
+<section class="section" id="skills">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">02 · Skills</span>
+      <h2>The toolkit behind the builds.</h2>
+      <p>A practical stack for shipping full-stack, AI-integrated web applications.</p>
+    </div>
+    <div class="skills-groups">
+      <div class="skill-group reveal">
+        <h4>Languages</h4>
+        <div class="chip-row">
+          <span class="chip">Java</span><span class="chip">JavaScript</span><span class="chip">TypeScript</span>
+          <span class="chip">HTML</span><span class="chip">CSS</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <h4>Frameworks &amp; Libraries</h4>
+        <div class="chip-row">
+          <span class="chip">React.js</span><span class="chip">Node.js</span><span class="chip">Express</span>
+          <span class="chip">Tailwind CSS</span><span class="chip">React Router DOM</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <h4>AI / APIs</h4>
+        <div class="chip-row">
+          <span class="chip">Google Gemini API</span><span class="chip">REST API Design</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <h4>Database &amp; Tools</h4>
+        <div class="chip-row">
+          <span class="chip">MySQL</span><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Postman</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- EXPERIENCE -->
+<section class="section" id="experience">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">03 · Experience</span>
+      <h2>Where I've put the stack to work.</h2>
+    </div>
+    <div class="timeline reveal">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Internship</div>
+        <h3>Full Stack Development Intern</h3>
+        <div class="role-co">Viruzverse Solutions</div>
+        <ul>
+          <li>Developed web application modules using Java and React.js.</li>
+          <li>Integrated MySQL databases to support application functionality and data persistence.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="patent-card reveal">
+      <span class="ptag">Patent Publication</span>
+      <h3>Fraud Detection in Voting System Using Hybrid Biometric Scanner</h3>
+      <ul>
+        <li>Designed and implemented a secure voting system using fingerprint and facial recognition authentication.</li>
+        <li>Developed biometric matching and anomaly detection techniques to prevent duplicate and fraudulent voting.</li>
+        <li>Tested system reliability, scalability, and spoofing resistance while ensuring secure voter data verification.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- CASE STUDY -->
+<section class="section" id="case-study">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">04 · Case Study</span>
+      <h2>Tamil Nadu Agricultural Hub</h2>
+      <p>An AI-powered decision-support system built for farmers — from crop advice to disease diagnosis.</p>
+    </div>
+
+    <div class="case-hero reveal">
+      <div class="case-tags">
+        <span>React 19</span><span>TypeScript</span><span>Node.js</span><span>Express</span>
+        <span>Google Gemini API</span><span>REST API</span><span>Tailwind CSS</span>
+      </div>
+      <h3>Helping farmers make faster, better-informed decisions with AI.</h3>
+      <p class="lead">A full-stack web application delivering AI-driven crop recommendations, soil analysis, and market/weather insights — with a multilingual assistant that speaks the farmer's language.</p>
+
+      <div class="case-grid">
+        <div class="case-col">
+          <span class="num">Problem</span>
+          <h4>Farmers lack fast, localized guidance</h4>
+          <p>Smallholder farmers often make critical crop and treatment decisions without easy access to expert advice, especially in regional languages, and without an easy way to interpret soil conditions or spot crop disease early.</p>
+        </div>
+        <div class="case-col">
+          <span class="num">Role</span>
+          <h4>Full-stack builder, solo project</h4>
+          <ul>
+            <li>Architected the React 19 + TypeScript frontend and Express backend</li>
+            <li>Integrated the Gemini API for structured AI outputs</li>
+            <li>Designed REST endpoints and the conversational assistant flow</li>
+          </ul>
+        </div>
+        <div class="case-col">
+          <span class="num">Solution</span>
+          <h4>An AI advisor farmers can talk to</h4>
+          <ul>
+            <li>JSON-schema-driven crop recommendations from Gemini</li>
+            <li>Image-based crop disease diagnosis from soil/photo inputs</li>
+            <li>Multilingual chat assistant in Tamil, Hindi &amp; English</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="case-outcome">
+        <span class="num">Outcome · What it delivers</span>
+        <div class="outcome-grid">
+          <div class="outcome-item">
+            <div class="t">Structured AI advice</div>
+            <div class="d">JSON-schema crop &amp; soil recommendations, not free-text guesses</div>
+          </div>
+          <div class="outcome-item">
+            <div class="t">Visual diagnosis</div>
+            <div class="d">Photo-based disease detection for faster field response</div>
+          </div>
+          <div class="outcome-item">
+            <div class="t">Language access</div>
+            <div class="d">Region-specific advice in Tamil, Hindi &amp; English</div>
+          </div>
+          <div class="outcome-item">
+            <div class="t">Live context</div>
+            <div class="d">Weather &amp; market endpoints layered into every recommendation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<!-- CERT & EDUCATION -->
+<section class="section" id="education">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">05 · Certification &amp; Education</span>
+      <h2>Foundations, formal and self-driven.</h2>
+    </div>
+    <div class="ce-grid">
+      <div class="reveal">
+        <h4 class="mono" style="font-size:13px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:20px;">Education</h4>
+        <div class="edu-item">
+          <div class="edu-top">
+            <h4>B.E. Computer Science &amp; Engineering</h4>
+            <span class="yr">2023 – 2027</span>
+          </div>
+          <div class="loc">V.S.B College of Engineering Technical Campus, Coimbatore</div>
+          <div class="detail">CGPA: 7.45</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-top">
+            <h4>Higher Secondary Education (H.S.C)</h4>
+            <span class="yr">2023</span>
+          </div>
+          <div class="loc">Maharishi Hr. Sec. School, Tiruvannamalai</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-top">
+            <h4>Secondary School Education (S.S.C)</h4>
+            <span class="yr">2021</span>
+          </div>
+          <div class="loc">Maharishi Hr. Sec. School, Tiruvannamalai</div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <h4 class="mono" style="font-size:13px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:20px;">Certifications</h4>
+        <div class="cert-list">
+          <div class="cert-item">
+            <div class="cert-icon">Jv</div>
+            <div><div class="ct">Java Programming</div><div class="cs">Great Learning Certified</div></div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-icon">DA</div>
+            <div><div class="ct">Data Analyst</div><div class="cs">Microsoft Certified</div></div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-icon">Cl</div>
+            <div><div class="ct">Cloud Computing</div><div class="cs">NPTEL Certified</div></div>
+          </div>
+        </div>
+        <div class="achieve">
+          <div class="cert-icon">🏆</div>
+          <div><div class="ct">Runner-up, District-Level Kabaddi Championship</div><div class="cs">Achievement</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="contact-panel reveal">
+      <h2>Let's build something worth shipping.</h2>
+      <p>Open to internships, full-stack roles, and collaborations involving AI-integrated or cloud-native products.</p>
+      <div class="contact-links">
+        <a href="mailto:Praveenkumar20026@gmail.com" class="clink"><span class="ico">@</span>Praveenkumar20026@gmail.com</a>
+        <a href="tel:+918940699657" class="clink"><span class="ico">#</span>+91 8940699657</a>
+        <a href="https://www.linkedin.com/in/praveen-kumar-m-6786763a0" target="_blank" rel="noopener" class="clink"><span class="ico">in</span>LinkedIn</a>
+        <a href="https://github.com/praveenkumar5424" target="_blank" rel="noopener" class="clink"><span class="ico">gh</span>GitHub</a>
+        <a href="https://leetcode.com/u/praveen-kumar-89/" target="_blank" rel="noopener" class="clink"><span class="ico">lc</span>LeetCode</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Designed &amp; built by <span>Praveenkumar M</span> — Tiruvannamalai, India
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
