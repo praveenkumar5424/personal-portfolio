@@ -47,8 +47,6 @@ Design/Animations: Keyframe animations, smooth scrolling, glassmorphism/backdrop
 HTML
 
 🛠️ How to View / Run Locally
-Clone the repository:
-
 Bash
 git clone https://github.com/praveenkumar5424/your-repo-name.git
 Navigate to the directory:
