@@ -46,19 +46,6 @@ HTML
 Design/Animations: Keyframe animations, smooth scrolling, glassmorphism/backdrop filters, and responsive layouts  
 HTML
 
-🛠️ How to View / Run Locally
-Bash
-git clone https://github.com/praveenkumar5424/your-repo-name.git
-Navigate to the directory:
-
-Bash
-cd your-repo-name
-Open the portfolio:
-
-Simply double-click index.html to open it directly in any modern web browser.  
-HTML
-
-Alternatively, serve it using the VS Code Live Server extension.
 
 👤 Profile & Connect
 Name: Praveenkumar M  
